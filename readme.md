@@ -17,111 +17,109 @@ This package comes by default with:
 How you stack them is up to you, however the ExecutionBus must come last to deliver the request to the final `handle()` call.
 
 ### Example Bus
+```php
+<?php
+$inflector = new CommandBus\NameInflector;
+$container = new Illuminate\Container\Container;
+$logger = new Illuminate\Log\Writer;
 
-	# When resolving the CommandBus object, you can stack implementations however you'd like.
+$executionBus = new ExecutionBus($container, $inflector);
 
-	# Resolve shared dependencies
-	$inflector = new CommandBus\NameInflector;
-	$container = new Illuminate\Container\Container;
-	$logger = new Illuminate\Log\Writer;
+$validationBus = new CommandBus\ValidationCommandBus($executionBus, $container, $inflector, $logger);
 
-	# Instantiate busses and inject them in the order you wish them to run
-	$executionBus = new ExecutionBus($container, $inflector);
-
-	$validationBus = new CommandBus\ValidationCommandBus($executionBus, $container, $inflector, $logger);
-
-	# In this instance, each command passed to the bus will
-	# first run through the logging bus, which then executes
-	# the validation bus, and finally the execution bus.
-	return new CommandBus\LoggingCommandBus($validationBus, $container, $inflector, $logger);
-
+# In this instance, each command passed to the bus will
+# first run through the logging bus, which then executes
+# the validation bus, and finally the execution bus.
+return new CommandBus\LoggingCommandBus($validationBus, $container, $inflector, $logger);
+```
 ### Laravel Service Provider
 
 There is a service provider for Laravel which provides auto bootstrapping for the Command Bus into Laravel by adding it to the `providers` array in  `app/config/app.php`.
+```php
+'providers' => array(
+	...laravel providers...
 
-		'providers' => array(
-		...laravel providers...
-
-		'JesseObrien\CommandBus\CommandBusServiceProvider',
-	)
-
+	'JesseObrien\CommandBus\CommandBusServiceProvider',
+)
+```
 ### Example Request Cycle
 
 To set up an example request cycle, we simply need a request object and handler and response objects to match.
+```php
+class InsertNewBookRequest {
+	public $author;
+	public $title;
+	public $isbn;
 
-	class InsertNewBookRequest {
-		public $author;
-		public $title;
-		public $isbn;
+	public function __construct($author, $title, $isbn) {
+		$this->author = $author;
+		$this->title = $title;
+		$this->isbn = $isbn;
+	}
+}
 
-		public function __construct($author, $title, $isbn) {
-			$this->author = $author;
-			$this->title = $title;
-			$this->isbn = $isbn;
-		}
+class InsertNewBookResponse {
+	public $book;
+
+	public function __construct($book) {
+		$this->book = $book;
+	}
+}
+
+class InsertNewBookHandler implements Handler {
+	private $bookRepository;
+
+	public function __construct(BookRepository $bookRepository) {
+		$this->bookRepository = $bookRepository;
 	}
 
-	class InsertNewBookResponse {
-		public $book;
+	public function handle(Request $request) {
+		$book = Book::new(
+			$author,
+			$title,
+			$isbn
+		);
 
-		public function __construct($book) {
-			$this->book = $book;
-		}
+		$this->bookRepository->save($book);
+
+		return new InsertBookResponse($book);
 	}
+}
 
-	class InsertNewBookHandler implements Handler {
-		private $bookRepository;
+# If we want to use a validator, we can create a validation object as well
+class InsertNewBookValidator implements Validator {
+	
+	public $rules = [
+		'author' => 'required',
+		'title' => 'required',
+	];
 
-		public function __construct(BookRepository $bookRepository) {
-			$this->bookRepository = $bookRepository;
-		}
-
-		public function handle(Request $request) {
-			$book = Book::new(
-				$author,
-				$title,
-				$isbn
-			);
-
-			$this->bookRepository->save($book);
-
-			return new InsertBookResponse($book);
-		}
-	}
-
-	# If we want to use a validator, we can create a validation object as well
-	class InsertNewBookValidator implements Validator {
-		
-		public $rules = [
-			'author' => 'required',
-			'title' => 'required',
+	public function validate(Request $request) {
+		$requestData = [
+			'author' => $request->author,
+			'title' => $request->title
 		];
 
-		public function validate(Request $request) {
-			$requestData = [
-				'author' => $request->author,
-				'title' => $request->title
-			];
+		$validator = Validator::make($rules, $data);
 
-			$validator = Validator::make($rules, $data);
-
-			if ( ! $ validator->passes()) {
-				throw new ValidationException($validator->messages());
-			}
-
+		if ( ! $ validator->passes()) {
+			throw new ValidationException($validator->messages());
 		}
 
 	}
 
-	# If we want to use a logger for a request, we can
-	class InsertNewBookLogger {
-		
-		public function log(Request $request) {
-			if (App::environment('local'))
-			{
-				Log::info("A ".get_class($request)." request was sent through the bus.");
-				Log::info("It contained ".get_object_vars($request));
-			}
-		}
+}
 
+# If we want to use a logger for a request, we can
+class InsertNewBookLogger {
+	
+	public function log(Request $request) {
+		if (App::environment('local'))
+		{
+			Log::info("A ".get_class($request)." request was sent through the bus.");
+			Log::info("It contained ".get_object_vars($request));
+		}
 	}
+
+}
+```
