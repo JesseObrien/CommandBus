@@ -4,7 +4,7 @@ This package provides an opinionated base to get started using the Command Bus a
 
 ### Um.. wat
 
-If you're unfamiliar with Command Bus style architecture I urge you to check out a talk that @ShawnMcCool gave at [Laracon 2014](http://www.youtube.com/watch?v=2_380DKU93U). Another great resource on learning the concepts and reasons for this style of architecture is a series at [Laracasts](http://laracasts.com) called [Commands and Domain Events](https://laracasts.com/series/commands-and-domain-events). For more advance reading and learning, checkout [Mathias Verraes' website](http://verraes.net/#talks).
+If you're unfamiliar with Command Bus style architecture I urge you to check out a talk that @ShawnMcCool gave at [Laracon 2014](http://www.youtube.com/watch?v=2_380DKU93U). Another great resource on learning the concepts and reasons for this style of architecture is a series at [Laracasts](http://laracasts.com) called [Commands and Domain Events](https://laracasts.com/series/commands-and-domain-events). For more advance reading and learning, check out [Mathias Verraes' website](http://verraes.net/#talks).
 
 ### Buses
 
