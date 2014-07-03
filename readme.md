@@ -18,11 +18,13 @@ How you stack them is up to you, however the ExecutionBus must come last to deli
 
 ### Example Bus
 ```php
-<?php
+
+# Instantiate shared dependencies
 $inflector = new CommandBus\NameInflector;
 $container = new Illuminate\Container\Container;
 $logger = new Illuminate\Log\Writer;
 
+# Instantiate busses
 $executionBus = new ExecutionBus($container, $inflector);
 
 $validationBus = new CommandBus\ValidationCommandBus($executionBus, $container, $inflector, $logger);
