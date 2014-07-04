@@ -1,4 +1,4 @@
-## CommandBus Base
+h# CommandBus Base
 
 This package provides an opinionated base to get started using the Command Bus architecture in PHP. Most of what's here has been derived from code and discussions with @ShawnMcCool. The structure may not fit with everyone's definitions of how a Command Bus should be implemented, however it provides a path of little resistance for newcomers.
 
@@ -46,100 +46,8 @@ If you wish to integrate the commandbus with Laravel, there is one provided. You
 	'CommandBus\CommandBusServiceProvider',
 ```
 
-
-
 ### Example Request Cycle
 
 To set up an example request cycle, we simply need a request object and handler and response objects to match.
-```php
-class InsertNewBookRequest {
 
-	public $author;
-	public $title;
-	public $isbn;
-
-	public function __construct($author, $title, $isbn) {
-		$this->author = $author;
-		$this->title = $title;
-		$this->isbn = $isbn;
-	}
-
-}
-```
-
-```php
-class InsertNewBookResponse {
-
-	public $book;
-
-	public function __construct($book) {
-		$this->book = $book;
-	}
-
-}
-```
-
-```php
-class InsertNewBookHandler implements Handler {
-
-	private $bookRepository;
-
-	public function __construct(BookRepository $bookRepository) {
-		$this->bookRepository = $bookRepository;
-	}
-
-	public function handle(Request $request) {
-		$book = Book::new(
-			$author,
-			$title,
-			$isbn
-		);
-
-		$this->bookRepository->save($book);
-
-		return new InsertBookResponse($book);
-	}
-
-}
-```
-
-```php
-# If we want to use a validator, we can create a validation object as well
-class InsertNewBookValidator implements Validator {
-	
-	public $rules = [
-		'author' => 'required',
-		'title' => 'required',
-	];
-
-	public function validate(Request $request) {
-		$requestData = [
-			'author' => $request->author,
-			'title' => $request->title
-		];
-
-		$validator = Validator::make($rules, $data);
-
-		if ( ! $ validator->passes()) {
-			throw new ValidationException($validator->messages());
-		}
-
-	}
-
-}
-```
-
-```php
-# If we want to use a logger for a request, we can
-class InsertNewBookLogger {
-	
-	public function log(Request $request) {
-		if (App::environment('local'))
-		{
-			Log::info("A ".get_class($request)." request was sent through the bus.");
-			Log::info("It contained ".get_object_vars($request));
-		}
-	}
-
-}
-```
+Examples can be found in the [examples](https://github.com/JesseObrien/CommandBus/tree/master/examples) directory.
