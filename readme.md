@@ -16,35 +16,15 @@ This package comes by default with:
 
 How you stack them is up to you, however the ExecutionBus must come last to deliver the request to the final `handle()` call.
 
-### Example Bus
-```php
-
-# Instantiate shared dependencies
-$inflector = new CommandBus\NameInflector;
-$container = new Illuminate\Container\Container;
-$logger = new Illuminate\Log\Writer;
-
-# Instantiate busses
-$executionBus = new ExecutionBus($container, $inflector);
-
-$validationBus = new CommandBus\ValidationBus($executionBus, $container, $inflector, $logger);
-
-# In this instance, each command passed to the bus will
-# first run through the logging bus, which then executes
-# the validation bus, and finally the execution bus.
-return new CommandBus\LoggingBus($validationBus, $container, $inflector, $logger);
-```
+If you would like an example of how the buses are instantiated, check the service provider's `register()` included in the source here.
 
 ### Laravel Service Provider
 
 If you wish to integrate the commandbus with Laravel, there is one provided. You can simply add it to your providers array in `app/config/app.php` and start injecting the `CommandBus\CommandBus` interface into your controllers and classes.
 
-**Note**: The default execution order of the busses is `Request -> LoggingBus -> ValidationBus -> ExecutionBus -> Handler`. If you wish to re-arrange the bus execution order, by all means make your own service provider and reorganize them. You could even write your own bus if you wanted.
+`'CommandBus\CommandBusServiceProvider',`
 
-```php
-	# Add this provider to the providers array
-	'CommandBus\CommandBusServiceProvider',
-```
+**Note**: The execution order of the busses is:`Request -> LoggingBus -> ValidationBus -> ExecutionBus -> Handler`. If you wish to re-arrange the bus execution order, by all means make your own service provider and reorganize them. You could even write your own bus if you wanted.
 
 
 
