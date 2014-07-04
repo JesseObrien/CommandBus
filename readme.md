@@ -42,7 +42,7 @@ If you wish to load up a default CommandBus via a service provider in Laravel, y
 'providers' => array(
 	...laravel providers...
 
-	'YourAppNamespace\CommandBusServiceProvider',
+	'CommandBus\CommandBusServiceProvider',
 )
 ```
 ### Example Request Cycle
