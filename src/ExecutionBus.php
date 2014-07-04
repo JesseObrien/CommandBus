@@ -1,8 +1,8 @@
-<?php namespace JesseObrien\CommandBus;
+<?php namespace CommandBus;
 
 use Illuminate\Container\Container;
 
-class ExecutionCommandBus implements CommandBus {
+class ExecutionBus implements CommandBus {
 
 	private $container;
 

@@ -1,4 +1,4 @@
-<?php namespace JesseObrien\CommandBus;
+<?php namespace CommandBus;
 
 interface Handler {
 	public function handle(Request $request);

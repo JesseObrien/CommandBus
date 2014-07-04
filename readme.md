@@ -27,21 +27,22 @@ $logger = new Illuminate\Log\Writer;
 # Instantiate busses
 $executionBus = new ExecutionBus($container, $inflector);
 
-$validationBus = new CommandBus\ValidationCommandBus($executionBus, $container, $inflector, $logger);
+$validationBus = new CommandBus\ValidationBus($executionBus, $container, $inflector, $logger);
 
 # In this instance, each command passed to the bus will
 # first run through the logging bus, which then executes
 # the validation bus, and finally the execution bus.
-return new CommandBus\LoggingCommandBus($validationBus, $container, $inflector, $logger);
+return new CommandBus\LoggingBus($validationBus, $container, $inflector, $logger);
 ```
 ### Laravel Service Provider
 
-There is a service provider for Laravel which provides auto bootstrapping for the Command Bus into Laravel by adding it to the `providers` array in  `app/config/app.php`.
+If you wish to load up a default CommandBus via a service provider in Laravel, you can quickly make one.
+
 ```php
 'providers' => array(
 	...laravel providers...
 
-	'JesseObrien\CommandBus\CommandBusServiceProvider',
+	'YourAppNamespace\CommandBusServiceProvider',
 )
 ```
 ### Example Request Cycle
@@ -49,6 +50,7 @@ There is a service provider for Laravel which provides auto bootstrapping for th
 To set up an example request cycle, we simply need a request object and handler and response objects to match.
 ```php
 class InsertNewBookRequest {
+
 	public $author;
 	public $title;
 	public $isbn;
@@ -58,17 +60,25 @@ class InsertNewBookRequest {
 		$this->title = $title;
 		$this->isbn = $isbn;
 	}
-}
 
+}
+```
+
+```php
 class InsertNewBookResponse {
+
 	public $book;
 
 	public function __construct($book) {
 		$this->book = $book;
 	}
-}
 
+}
+```
+
+```php
 class InsertNewBookHandler implements Handler {
+
 	private $bookRepository;
 
 	public function __construct(BookRepository $bookRepository) {
@@ -86,8 +96,11 @@ class InsertNewBookHandler implements Handler {
 
 		return new InsertBookResponse($book);
 	}
-}
 
+}
+```
+
+```php
 # If we want to use a validator, we can create a validation object as well
 class InsertNewBookValidator implements Validator {
 	
@@ -111,7 +124,9 @@ class InsertNewBookValidator implements Validator {
 	}
 
 }
+```
 
+```php
 # If we want to use a logger for a request, we can
 class InsertNewBookLogger {
 	

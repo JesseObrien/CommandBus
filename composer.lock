@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "9dff41216f1c8e370199cbce9770f115",
+    "hash": "fa4fb8cb6ff5d36182f0391437bc9926",
     "packages": [
         {
             "name": "illuminate/container",
@@ -693,12 +693,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "58f3a0e212a8df66858f22fc9a58f138bb5a2e9d"
+                "reference": "2d1ff9f236d5ff51f25a416594556274ffcedfa2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/58f3a0e212a8df66858f22fc9a58f138bb5a2e9d",
-                "reference": "58f3a0e212a8df66858f22fc9a58f138bb5a2e9d",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/2d1ff9f236d5ff51f25a416594556274ffcedfa2",
+                "reference": "2d1ff9f236d5ff51f25a416594556274ffcedfa2",
                 "shasum": ""
             },
             "require": {
@@ -759,7 +759,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2014-06-24 06:29:29"
+            "time": "2014-07-03 04:12:29"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
@@ -1137,11 +1137,17 @@
             "time": "2014-06-20 17:41:51"
         }
     ],
-    "aliases": [],
+    "aliases": [
+
+    ],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": [
+
+    ],
     "platform": {
         "php": ">=5.4.0"
     },
-    "platform-dev": []
+    "platform-dev": [
+
+    ]
 }

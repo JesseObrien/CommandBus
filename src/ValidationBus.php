@@ -1,10 +1,10 @@
-<?php namespace JesseObrien\CommandBus;
+<?php namespace CommandBus;
 
 use Illuminate\Container\Container;
 use Illuminate\Log\Writer;
 use ReflectionException;
 
-class ValidationCommandBus implements CommandBus {
+class ValidationBus implements CommandBus {
 
 	private $container;
 	private $inflector;

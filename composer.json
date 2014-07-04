@@ -10,7 +10,7 @@
     ],
 	"autoload": {
 		"psr-4": {
-			"JesseObrien\\CommandBus\\": "src/"
+			"CommandBus\\": "src/"
 		}
 	},
     "minimum-stability": "dev",
