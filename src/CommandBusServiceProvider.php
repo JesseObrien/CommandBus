@@ -6,7 +6,7 @@ class CommandBusServiceProvider extends ServiceProvider {
 
 	public function register()
 	{
-		$this->app->bind('CommandBus', function($app) {
+		$this->app->bind('CommandBus\CommandBus', function($app) {
 
 			$inflector = new NameInflector;
 

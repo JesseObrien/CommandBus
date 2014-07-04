@@ -34,17 +34,20 @@ $validationBus = new CommandBus\ValidationBus($executionBus, $container, $inflec
 # the validation bus, and finally the execution bus.
 return new CommandBus\LoggingBus($validationBus, $container, $inflector, $logger);
 ```
+
 ### Laravel Service Provider
 
-If you wish to load up a default CommandBus via a service provider in Laravel, you can quickly make one.
+If you wish to integrate the commandbus with Laravel, there is one provided. You can simply add it to your providers array in `app/config/app.php` and start injecting the `CommandBus\CommandBus` interface into your controllers and classes.
+
+**Note**: The default execution order of the busses is `Request -> LoggingBus -> ValidationBus -> ExecutionBus -> Handler`. If you wish to re-arrange the bus execution order, by all means make your own service provider and reorganize them. You could even write your own bus if you wanted.
 
 ```php
-'providers' => array(
-	...laravel providers...
-
+	# Add this provider to the providers array
 	'CommandBus\CommandBusServiceProvider',
-)
 ```
+
+
+
 ### Example Request Cycle
 
 To set up an example request cycle, we simply need a request object and handler and response objects to match.
