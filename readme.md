@@ -1,4 +1,4 @@
-h# CommandBus Base
+# CommandBus Base
 
 This package provides an opinionated base to get started using the Command Bus architecture in PHP. Most of what's here has been derived from code and discussions with @ShawnMcCool. The structure may not fit with everyone's definitions of how a Command Bus should be implemented, however it provides a path of little resistance for newcomers.
 
