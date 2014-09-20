@@ -7,7 +7,7 @@ class InsertNewBookHandler implements CommandBus\Handler {
 	private $library;
 
 	public function __construct(Library $library) {
-		$this->library = $libraryy;
+		$this->library = $library;
 	}
 
 	public function handle(Request $request) {
