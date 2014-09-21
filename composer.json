@@ -16,8 +16,8 @@
     "minimum-stability": "dev",
 	"require": {
 		"php": ">=5.4.0",
-		"illuminate/container": "~4.2",
-		"illuminate/log": "~4.2"
+		"illuminate/container": ">=4.2",
+		"illuminate/log": ">=4.2"
 	},
 	"require-dev": {
 		"phpunit/phpunit": "4.3.*",
